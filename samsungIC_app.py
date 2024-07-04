@@ -4,6 +4,9 @@ import seaborn as sns
 from matplotlib import pyplot as plt
 from PIL import Image
 import pickle
+import time
+
+from streamlit_autorefresh import st_autorefresh
 
 pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', None)
@@ -73,20 +76,52 @@ def grab_col_names(dataframe, cat_th=10, car_th=20):  #kategorik, nümerik deği
 
 condition = st.sidebar.selectbox(
     "Select the visualization",
-    ("Introduction", "EDA", "Model Prediction", "Model Evaluation")
+    ("Introduction", "Plants", "EDA", "Model Prediction", "Model Evaluation")
 )
 
 ########################## INTRODUCTION ###################################
 
+
+#SLide show fotoğrafları
+slide_images = [
+    "slideshow_images/photo1.jpg",
+    "slideshow_images/photo2.jpg",
+    "slideshow_images/photo3.jpg",
+    "slideshow_images/photo4.jpg",
+    "slideshow_images/photo5.jpg",
+    "slideshow_images/photo6.jpg",
+    "slideshow_images/photo7.jpg",
+    "slideshow_images/photo8.jpg",
+    "slideshow_images/photo9.jpg",
+    "slideshow_images/photo10.jpg",
+    "slideshow_images/photo11.jpg",
+    "slideshow_images/photo12.jpg",
+    "slideshow_images/photo13.jpg",
+    "slideshow_images/photo14.jpg",
+]
+
+# Sayfa yenileme (saniye)
+refresh_rate = 3
+
+# Sayfa yenileme
+count = st_autorefresh(interval=refresh_rate * 1000, key="slideshow")
+
+# Introduction kısmı
 if condition == 'Introduction':
     col1, col2 = st.columns([2, 8])
 
     with col1:
-        st.image("logo_turtle.png", width=140)
+        st.image("CarettaCarettaTurtle-Photoroom.png", width=185)
     with col2:
         st.title("Impact of Dune Plants on Loggerhead Sea Turtles")
     st.write("An explanatory website for our Samsung IC capstone project.")
     st.header("Introduction")
+
+    #SLAYT
+    slide_index = count % len(slide_images)
+    slide_image = Image.open(slide_images[slide_index])
+    slide_image = slide_image.resize((500, 400))
+    st.image(slide_image, use_column_width=True)
 
     st.markdown("""
         In this project, observing the effects of dune plants on loggerhead sea turtle eggs hatching success is aimed. 
@@ -95,7 +130,6 @@ if condition == 'Introduction':
         the chances of hatching by breaking them. Therefore, it is crucial to analyze and optimize the effect of
         dune plants upon the hatching of the eggs.
     """)
-
 
     image1 = Image.open('seaturtle_img.jpg')
     width, height = image1.size
@@ -110,6 +144,7 @@ if condition == 'Introduction':
         form and there are 42 features and 93 samples.
         [Link to the Dataset](https://datadryad.org/stash/dataset/doi:10.5061/dryad.zw3r228dk)
         """)
+
     st.markdown("""
     ### Plant Types in Pie Chart
     The plants classified as "Others" includes plant types such as: palm, christmas cactus, unknown, dune sunflower,
@@ -128,25 +163,112 @@ if condition == 'Introduction':
         [For further information about SDG-14](https://sdgs.un.org/goals/goal14)
         """)
 
-    image2 = Image.open('sdg14.png')
-    width, height = image2.size
-    image2 = image2.resize((200, 200))
-    st.image(image2, caption='SDG-14 Logo')
+    image3 = Image.open('sdg14.png')
+    width, height = image3.size
+    image3 = image3.resize((200, 200))
+    st.image(image3, caption='SDG-14 Logo')
+
+
+######################### PLANTS ################################
+
+elif condition == 'Plants':
+
+    plants_info = {
+        "Beach Naupaka": {
+            "image": "plant_images/beach-naupka.jpg",
+            "description": "Beach naupaka is a shrub found in coastal areas. It has white to pale yellow flowers and is known for its salt tolerance. It helps stabilize sand dunes, which is crucial for the nesting success of Caretta carettas."
+        },
+        "Christmas Cactus": {
+            "image": "plant_images/christmas-cactus.png",
+            "description": "Christmas cactus is a popular houseplant known for its beautiful flowers that bloom around Christmas time. It can grow in coastal areas and contributes to dune stabilization, indirectly supporting the nesting habitats of Caretta carettas."
+        },
+        "Crested Saltbush": {
+            "image": "plant_images/crested-saltbush.jpg",
+            "description": "Crested saltbush is a perennial shrub that grows in saline soils. It helps stabilize coastal soils, reducing erosion and providing a safer nesting ground for Caretta carettas."
+        },
+        "Dune Sunflower": {
+            "image": "plant_images/dune-sunflower.jpg",
+            "description": "Dune sunflower is a flowering plant that grows in sandy soils along the coast. Its root systems help to stabilize dunes, which is essential for the nesting success of Caretta carettas."
+        },
+        "Palm": {
+            "image": "plant_images/palmtree.jpg",
+            "description": "Palms are a diverse group of plants that are commonly found in tropical and subtropical regions. Certain palm species can help stabilize coastal dunes, providing a supportive environment for Caretta caretta nesting."
+        },
+        "Railroad Vine": {
+            "image": "plant_images/railroad-vine.jpeg",
+            "description": "Railroad vine, also known as beach morning glory, is a fast-growing vine that helps stabilize sand dunes. Its extensive root system prevents erosion, creating a more stable nesting area for Caretta carettas."
+        },
+        "Salt Grass": {
+            "image": "plant_images/salt-grass.jpg",
+            "description": "Salt grass is a halophytic grass species that grows in saline environments. It plays a crucial role in coastal ecosystems by stabilizing soil and reducing erosion, thereby supporting the nesting success of Caretta carettas."
+        },
+        "Sea Grapes": {
+            "image": "plant_images/sea-grapes.jpeg",
+            "description": "Sea grapes are coastal plants that grow in sandy soils. They help prevent beach erosion and provide shade and protection for Caretta caretta nests."
+        },
+        "Sea Oats": {
+            "image": "plant_images/sea-oats.jpg",
+            "description": "Sea oats are a grass species that grow on sand dunes. Their root systems help to stabilize the dunes, which is vital for providing a safe nesting habitat for Caretta carettas."
+        },
+        "Sea Purslane": {
+            "image": "plant_images/sea-purslane.jpg",
+            "description": "Sea purslane is a succulent plant found in coastal areas. It helps to stabilize sand and prevent erosion, providing a more secure environment for Caretta caretta nesting."
+        },
+        "Seaside Sandmat": {
+            "image": "plant_images/seaside-sandmat.jpg",
+            "description": "Seaside sandmat is a groundcover plant that grows in coastal regions. It helps stabilize sandy soils, reducing erosion and supporting the nesting habitats of Caretta carettas."
+        }
+    }
+
+
+
+    def show_plant_info(name, info):
+        st.header(name)
+        image = Image.open(info["image"])
+        image = image.resize((300, 200))  # Resmi aynı boyuta getirme
+        st.image(image, caption=name, use_column_width=False)
+        st.write(info["description"])
+
+
+   
+    
+    col1, col2 = st.columns([2, 8])
+
+    with col1:
+        st.image("CarettaCarettaTurtle-Photoroom.png", width=185)
+    with col2:
+     # Başlık ve Açıklama
+        st.markdown("<h1 style='margin-top: 40px;'>Dune Plants</h1>", unsafe_allow_html=True)
+         
+     
+
+    
+    for plant, info in plants_info.items():
+        show_plant_info(plant, info)
+
 
 ########################## EDA ###################################
 
 elif condition == 'EDA':
-    col1, col2 = st.columns([2, 11])
-
+ 
+    col1, col2 = st.columns([2, 8])
+     
     with col1:
-        st.image("logo_turtle.png", width=110)
+        st.image("CarettaCarettaTurtle-Photoroom.png", width=185,)
+        
     with col2:
-        st.title("Explanatory Data Analysis (EDA)")
+         
+        st.markdown("<h1 style='margin-top: 40px;'>Explanatory Data Analysis(EDA)</h1>", unsafe_allow_html=True)
+         
+        
+       
+
+
 
     df_c = get_cleaned_data()
     df_raw = get_raw_data()
-
     st.header("Dataset Review")
+    
     dataset_choice = st.radio("Choose Dataset Preview", ("Original Dataset", "Cleaned and Processed Dataset"))
 
     #Kullanıcının seçimine göre dataset'i gösterelim
@@ -286,12 +408,12 @@ elif condition == 'EDA':
 
 ########################## MODEL PREDICTION ###################################
 elif condition == 'Model Prediction':
-    col1, col2 = st.columns([2, 12])
+    col1, col2 = st.columns([2, 8])
     with col1:
-        st.image("logo_turtle.png", width=100)
+        st.image("CarettaCarettaTurtle-Photoroom.png", width=185)
     with col2:
-        st.title("Model Prediction")
-
+        
+     st.markdown("<h1 style='margin-top: 40px;'>Model Prediction</h1>", unsafe_allow_html=True)
     st.markdown("""
             This section is made to help scientists who work in related projects. """)
 
@@ -473,11 +595,12 @@ elif condition == 'Model Prediction':
 
 ########################## MODEL EVALUATION ###################################
 elif condition == 'Model Evaluation':
-    col1, col2 = st.columns([2, 12])
+    col1, col2 = st.columns([2, 8])
     with col1:
-        st.image("logo_turtle.png", width=100)
+        st.image("CarettaCarettaTurtle-Photoroom.png", width=185)
     with col2:
-        st.title("Model Evaluation")
+         
+        st.markdown("<h1 style='margin-top: 40px;'>Model Evaluation</h1>", unsafe_allow_html=True)
     st.markdown("""In this section, performance results of different models will be shown and visualized.""")
 
     st.markdown("""
