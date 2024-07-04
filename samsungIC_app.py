@@ -4,9 +4,8 @@ import seaborn as sns
 from matplotlib import pyplot as plt
 from PIL import Image
 import pickle
-import time
-
 from streamlit_autorefresh import st_autorefresh
+
 
 pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', None)
@@ -16,7 +15,6 @@ pd.set_option('display.width', 500)
 st.set_page_config(
     page_title="Impact of Dune Plants on Caretta Caretta",
     page_icon="🐢️",
-    layout="wide",
     initial_sidebar_state="expanded",
 )
 
@@ -100,18 +98,16 @@ slide_images = [
     "slideshow_images/photo14.jpg",
 ]
 
-# Sayfa yenileme (saniye)
-refresh_rate = 3
-
-# Sayfa yenileme
-count = st_autorefresh(interval=refresh_rate * 1000, key="slideshow")
-
 # Introduction kısmı
 if condition == 'Introduction':
+
+    refresh_rate = 3
+    count = st_autorefresh(interval=refresh_rate * 1000, key="slideshow")
+
     col1, col2 = st.columns([2, 8])
 
     with col1:
-        st.image("CarettaCarettaTurtle-Photoroom.png", width=185)
+        st.image("CarettaCarettaTurtle-Photoroom.png", width=165)
     with col2:
         st.title("Impact of Dune Plants on Loggerhead Sea Turtles")
     st.write("An explanatory website for our Samsung IC capstone project.")
@@ -120,7 +116,7 @@ if condition == 'Introduction':
     #SLAYT
     slide_index = count % len(slide_images)
     slide_image = Image.open(slide_images[slide_index])
-    slide_image = slide_image.resize((500, 400))
+    slide_image = slide_image.resize((400, 250))
     st.image(slide_image, use_column_width=True)
 
     st.markdown("""
@@ -136,6 +132,13 @@ if condition == 'Introduction':
     image1 = image1.resize((420, 300))
     st.image(image1, caption='Loggerhead Sea Turtle')
 
+    col1, col2 = st.columns([1, 2])
+
+    with col1:
+        st.image("invadedeggs.jpg", width=200, caption='Eggs ruined by roots [1]')
+    with col2:
+        st.image("ruinedeggs_hatchling.jpg", width=403, caption='Invaded eggs by roots and trapped loggerhead hatchling [1]')
+
     st.markdown("""
         ### About the Dataset
         The dataset is publicly available in the Dryad data repository. It is published in 2024 and there is also
@@ -144,6 +147,7 @@ if condition == 'Introduction':
         form and there are 42 features and 93 samples.
         [Link to the Dataset](https://datadryad.org/stash/dataset/doi:10.5061/dryad.zw3r228dk)
         """)
+
 
     st.markdown("""
     ### Plant Types in Pie Chart
@@ -168,6 +172,10 @@ if condition == 'Introduction':
     image3 = image3.resize((200, 200))
     st.image(image3, caption='SDG-14 Logo')
 
+    st.markdown("""
+        ### Article About the Dataset
+        To learn more about the dataset you can access the dataset article (referenced as [1]) : [Link to the Article](https://onlinelibrary.wiley.com/doi/full/10.1002/ece3.11207)
+        """)
 
 ######################### PLANTS ################################
 
@@ -232,7 +240,7 @@ elif condition == 'Plants':
 
    
     
-    col1, col2 = st.columns([2, 8])
+    col1, col2 = st.columns([2, 7])
 
     with col1:
         st.image("CarettaCarettaTurtle-Photoroom.png", width=185)
@@ -251,14 +259,14 @@ elif condition == 'Plants':
 
 elif condition == 'EDA':
  
-    col1, col2 = st.columns([2, 8])
+    col1, col2 = st.columns([1, 4])
      
     with col1:
-        st.image("CarettaCarettaTurtle-Photoroom.png", width=185,)
+        st.image("CarettaCarettaTurtle-Photoroom.png", width=165)
         
     with col2:
          
-        st.markdown("<h1 style='margin-top: 40px;'>Explanatory Data Analysis(EDA)</h1>", unsafe_allow_html=True)
+        st.markdown("<h1 style='margin-top: 40px;'>Exploratory Data Analysis</h1>", unsafe_allow_html=True)
          
         
        
@@ -408,7 +416,7 @@ elif condition == 'EDA':
 
 ########################## MODEL PREDICTION ###################################
 elif condition == 'Model Prediction':
-    col1, col2 = st.columns([2, 8])
+    col1, col2 = st.columns([2, 7])
     with col1:
         st.image("CarettaCarettaTurtle-Photoroom.png", width=185)
     with col2:
@@ -595,7 +603,7 @@ elif condition == 'Model Prediction':
 
 ########################## MODEL EVALUATION ###################################
 elif condition == 'Model Evaluation':
-    col1, col2 = st.columns([2, 8])
+    col1, col2 = st.columns([2, 7])
     with col1:
         st.image("CarettaCarettaTurtle-Photoroom.png", width=185)
     with col2:
