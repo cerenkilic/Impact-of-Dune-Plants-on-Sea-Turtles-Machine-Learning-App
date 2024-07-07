@@ -1,10 +1,12 @@
 import streamlit as st
+import  base64
 import pandas as pd
 import seaborn as sns
 from matplotlib import pyplot as plt
 from PIL import Image
 import pickle
 from streamlit_autorefresh import st_autorefresh
+from streamlit_option_menu import option_menu
 
 
 pd.set_option('display.max_columns', None)
@@ -17,6 +19,42 @@ st.set_page_config(
     page_icon="🐢️",
     initial_sidebar_state="expanded",
 )
+
+sidebar_bg_image = "side-bar.png"
+
+
+def get_base64_of_bin_file(bin_file):
+    with open(bin_file, 'rb') as f:
+        data = f.read()
+    return base64.b64encode(data).decode()
+
+
+def set_png_as_page_bg(png_file):
+    bin_str = get_base64_of_bin_file(png_file)
+    page_bg_img = f"""
+    <style>
+    [data-testid="stSidebar"] > div:first-child {{
+        background-image: url("data:image/png;base64,{bin_str}");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        border-radius: 15px;
+        overflow: visible;
+
+    }}
+    </style>
+    """
+    st.markdown(page_bg_img, unsafe_allow_html=True)
+
+
+set_png_as_page_bg(sidebar_bg_image)
+
+with st.sidebar:
+    selected = option_menu(
+        menu_title=None,
+        options=["Introduction", "Plants", "EDA", "Model Prediction", "Model Evaluation", "Our Team"],
+        default_index=0
+    )
 
 def get_raw_data():
     """
@@ -72,10 +110,7 @@ def grab_col_names(dataframe, cat_th=10, car_th=20):  #kategorik, nümerik deği
   return cat_cols, num_cols, cat_but_car
 
 
-condition = st.sidebar.selectbox(
-    "Select the visualization",
-    ("Introduction", "Plants", "EDA", "Model Prediction", "Model Evaluation")
-)
+
 
 ########################## INTRODUCTION ###################################
 
@@ -98,14 +133,11 @@ slide_images = [
     "slideshow_images/photo14.jpg",
 ]
 
-
+refresh_rate = 3
 # Introduction kısmı
-if condition == 'Introduction':
-    refresh_rate = 3
+if selected == 'Introduction':
     count = st_autorefresh(interval=refresh_rate * 1000, key="slideshow")
-
     col1, col2 = st.columns([2, 8])
-
     with col1:
         st.image("CarettaCarettaTurtle-Photoroom.png", width=165)
     with col2:
@@ -179,85 +211,86 @@ if condition == 'Introduction':
 
 ######################### PLANTS ################################
 
-elif condition == 'Plants':
-
-    plants_info = {
-        "Beach Naupaka": {
-            "image": "plant_images/beach-naupka.jpg",
-            "description": "Beach naupaka is a shrub found in coastal areas. It has white to pale yellow flowers and is known for its salt tolerance. It helps stabilize sand dunes, which is crucial for the nesting success of Caretta carettas."
-        },
-        "Christmas Cactus": {
-            "image": "plant_images/christmas-cactus.png",
-            "description": "Christmas cactus is a popular houseplant known for its beautiful flowers that bloom around Christmas time. It can grow in coastal areas and contributes to dune stabilization, indirectly supporting the nesting habitats of Caretta carettas."
-        },
-        "Crested Saltbush": {
-            "image": "plant_images/crested-saltbush.jpg",
-            "description": "Crested saltbush is a perennial shrub that grows in saline soils. It helps stabilize coastal soils, reducing erosion and providing a safer nesting ground for Caretta carettas."
-        },
-        "Dune Sunflower": {
-            "image": "plant_images/dune-sunflower.jpg",
-            "description": "Dune sunflower is a flowering plant that grows in sandy soils along the coast. Its root systems help to stabilize dunes, which is essential for the nesting success of Caretta carettas."
-        },
-        "Palm": {
-            "image": "plant_images/palmtree.jpg",
-            "description": "Palms are a diverse group of plants that are commonly found in tropical and subtropical regions. Certain palm species can help stabilize coastal dunes, providing a supportive environment for Caretta caretta nesting."
-        },
-        "Railroad Vine": {
-            "image": "plant_images/railroad-vine.jpeg",
-            "description": "Railroad vine, also known as beach morning glory, is a fast-growing vine that helps stabilize sand dunes. Its extensive root system prevents erosion, creating a more stable nesting area for Caretta carettas."
-        },
-        "Salt Grass": {
-            "image": "plant_images/salt-grass.jpg",
-            "description": "Salt grass is a halophytic grass species that grows in saline environments. It plays a crucial role in coastal ecosystems by stabilizing soil and reducing erosion, thereby supporting the nesting success of Caretta carettas."
-        },
-        "Sea Grapes": {
-            "image": "plant_images/sea-grapes.jpeg",
-            "description": "Sea grapes are coastal plants that grow in sandy soils. They help prevent beach erosion and provide shade and protection for Caretta caretta nests."
-        },
-        "Sea Oats": {
-            "image": "plant_images/sea-oats.jpg",
-            "description": "Sea oats are a grass species that grow on sand dunes. Their root systems help to stabilize the dunes, which is vital for providing a safe nesting habitat for Caretta carettas."
-        },
-        "Sea Purslane": {
-            "image": "plant_images/sea-purslane.jpg",
-            "description": "Sea purslane is a succulent plant found in coastal areas. It helps to stabilize sand and prevent erosion, providing a more secure environment for Caretta caretta nesting."
-        },
-        "Seaside Sandmat": {
-            "image": "plant_images/seaside-sandmat.jpg",
-            "description": "Seaside sandmat is a groundcover plant that grows in coastal regions. It helps stabilize sandy soils, reducing erosion and supporting the nesting habitats of Caretta carettas."
-        }
-    }
-
-
-
-    def show_plant_info(name, info):
-        st.header(name)
-        image = Image.open(info["image"])
-        image = image.resize((300, 200))  # Resmi aynı boyuta getirme
-        st.image(image, caption=name, use_column_width=False)
-        st.write(info["description"])
-
-
-   
-    
+elif selected == 'Plants':
     col1, col2 = st.columns([2, 7])
 
     with col1:
         st.image("CarettaCarettaTurtle-Photoroom.png", width=185)
     with col2:
-     # Başlık ve Açıklama
+        # Başlık ve Açıklama
         st.markdown("<h1 style='margin-top: 40px;'>Dune Plants</h1>", unsafe_allow_html=True)
-         
-     
 
-    
-    for plant, info in plants_info.items():
-        show_plant_info(plant, info)
+    plants_info = {
+        "Beach Naupaka": {
+            "images": ["plant_images/beach-naupka.jpg", "plant_images/beach-naupaka-2.jpg",
+                       "plant_images/beach-naupaka-3.jpg"],
+            "description": "Beach naupaka is a shrub found in coastal areas. It has white to pale yellow flowers and is known for its salt tolerance. It helps stabilize sand dunes, which is crucial for the nesting success of Caretta carettas."
+        },
+        "Christmas Cactus": {
+            "images": ["plant_images/christmas-cactus.jpg","plant_images/christmas-cactus-2.jpg","plant_images/christmas-cactus-3.png"],
+            "description": "Christmas cactus is a popular houseplant known for its beautiful flowers that bloom around Christmas time. It can grow in coastal areas and contributes to dune stabilization, indirectly supporting the nesting habitats of Caretta carettas."
+        },
+        "Crested Saltbush": {
+            "images": ["plant_images/crested-saltbush.jpg","plant_images/crested-saltbush-2.jpg","plant_images/crested-saltbush-3.jpg"],
+            "description": "Crested saltbush is a perennial shrub that grows in saline soils. It helps stabilize coastal soils, reducing erosion and providing a safer nesting ground for Caretta carettas."
+        },
+        "Dune Sunflower": {
+            "images": ["plant_images/dune-sunflower.jpg","plant_images/dune-sunflower-2.jpg","plant_images/dune-flowers-3.jpg"],
+            "description": "Dune sunflower is a flowering plant that grows in sandy soils along the coast. Its root systems help to stabilize dunes, which is essential for the nesting success of Caretta carettas."
+        },
+        "Palm": {
+            "images": ["plant_images/palmtree.jpg","plant_images/palm-2.jpg","plant_images/palm-3.jpg"],
+            "description": "Palms are a diverse group of plants that are commonly found in tropical and subtropical regions. Certain palm species can help stabilize coastal dunes, providing a supportive environment for Caretta caretta nesting."
+        },
+        "Railroad Vine": {
+            "images": ["plant_images/railroad-vine.jpeg","plant_images/railroad-vine-2.jpg","plant_images/railroad-vine-3.jpeg"],
+            "description": "Railroad vine, also known as beach morning glory, is a fast-growing vine that helps stabilize sand dunes. Its extensive root system prevents erosion, creating a more stable nesting area for Caretta carettas."
+        },
+        "Salt Grass": {
+            "images": ["plant_images/salt-grass.jpg","plant_images/salt-grass-2.jpg","plant_images/salt-grass-3.jpeg"],
+            "description": "Salt grass is a halophytic grass species that grows in saline environments. It plays a crucial role in coastal ecosystems by stabilizing soil and reducing erosion, thereby supporting the nesting success of Caretta carettas."
+        },
+        "Sea Grapes": {
+            "images": ["plant_images/sea-grapes.jpeg","plant_images/sea-grapes-2.jpeg","plant_images/sea-grapes-3.jpeg"],
+            "description": "Sea grapes are coastal plants that grow in sandy soils. They help prevent beach erosion and provide shade and protection for Caretta caretta nests."
+        },
+        "Sea Oats": {
+            "images": ["plant_images/sea-oats.jpg","plant_images/sea-oats-2.jpeg","plant_images/sea-oats-3.jpg"],
+            "description": "Sea oats are a grass species that grow on sand dunes. Their root systems help to stabilize the dunes, which is vital for providing a safe nesting habitat for Caretta carettas."
+        },
+        "Sea Purslane": {
+            "images": ["plant_images/sea-purslane.jpg","plant_images/sea-purslane-2.jpg","plant_images/sea-purslane-3.jpg"],
+            "description": "Sea purslane is a succulent plant found in coastal areas. It helps to stabilize sand and prevent erosion, providing a more secure environment for Caretta caretta nesting."
+        },
+        "Seaside Sandmat": {
+            "images": ["plant_images/seaside-sandmat.jpg","plant_images/seaside-sandmat-2.jpg","plant_images/seaside-sandmat-3.jpg"],
+            "description": "Seaside sandmat is a groundcover plant that grows in coastal regions. It helps stabilize sandy soils, reducing erosion and supporting the nesting habitats of Caretta carettas."
+        }
+    }
 
 
-########################## EDA ###################################
+    def resize_image(image_path, output_size=(300, 200)):
+        with Image.open(image_path) as img:
+            resized_img = img.resize(output_size)
+            return resized_img
 
-elif condition == 'EDA':
+
+    for plant_name, plant_data in plants_info.items():
+        st.write(f"### {plant_name}")
+        cols = st.columns(3)
+        images = [resize_image(image) for image in plant_data["images"]]
+        for col, image in zip(cols, images):
+            with col:
+                st.image(image)
+        st.write(plant_data["description"])
+
+
+
+
+
+    ########################## EDA ###################################
+
+elif selected == 'EDA':
  
     col1, col2 = st.columns([1, 4])
      
@@ -335,7 +368,7 @@ elif condition == 'EDA':
     x_axis = st.selectbox('Please select X axis', num_cols)
     y_axis = st.selectbox('Please select Y axis', num_cols)
     fig, ax = plt.subplots(figsize=(10, 6))
-    sns.scatterplot(x=df_c[x_axis], y=df_c[y_axis], ax=ax, color="green")
+    sns.scatterplot(x=df_c[x_axis], y=df_c[y_axis], ax=ax, color="#4b7369")
     plt.title(f'Scatter Plot: {x_axis} vs. {y_axis}', fontsize=15)
     plt.xlabel(x_axis, fontsize=14)
     plt.ylabel(y_axis, fontsize=14)
@@ -415,27 +448,44 @@ elif condition == 'EDA':
     selected_column = st.selectbox('Please select a numerical column', num_cols)
     outliers = grab_outliers(df_raw, selected_column)
     fig = plt.figure(figsize=(10, 6))
-    sns.boxplot(x=df_raw[selected_column])
+    sns.boxplot(x=df_raw[selected_column], color="#4b7369")
     plt.title(f'Box Plot: {selected_column}', fontsize=15)
     plt.xlabel(selected_column, fontsize=14)
     plt.grid(True)
     plt.tight_layout()
     st.pyplot(fig)
+    st.header("Target Summary with Numeric Columns")
+
+    col1, col2 = st.columns(2)
+
+    selected_column = col1.selectbox('Please select a numerical column', num_cols, key='num_col_select')
+    target_value = col2.text_input("Target", value="HS", disabled=True)
+
+
+    def target_summary_with_num(dataframe, target, numerical_col):
+        temp_df = dataframe.groupby(target).agg({numerical_col: "mean"})
+        print(temp_df)
+        fig, ax = plt.subplots(figsize=(15, 7))
+        temp_df.plot(kind="bar", y=numerical_col, color="#4b7369", ax=ax)
+        st.pyplot(fig)  #
+
+
+    target_summary_with_num(df_raw, "HS", selected_column)
 
     st.header("Correlation Analysis")
 
     if st.checkbox("Correlation Matrix"):
-
-        plt.figure(figsize=(10, 8))
-        sns.heatmap(df_raw[num_cols].corr(), annot=True, cmap='coolwarm',
-                    cbar_kws={'label': 'Korelasyon'})
-        plt.title('Korelasyon Matrisi (Heatmap)', fontsize=15)
-        plt.xticks(fontsize=12)
-        plt.yticks(fontsize=12)
-        st.pyplot()
+        st.image("corr_map.png")
+        # plt.figure(figsize=(10, 8))
+        # sns.heatmap(df_raw[num_cols].corr(), annot=True, cmap='coolwarm',
+        #            cbar_kws={'label': 'Korelasyon'})
+        # plt.title('Korelasyon Matrisi (Heatmap)', fontsize=15)
+        # plt.xticks(fontsize=12)
+        # plt.yticks(fontsize=12)
+        # st.pyplot()
 
 ########################## MODEL PREDICTION ###################################
-elif condition == 'Model Prediction':
+elif selected == 'Model Prediction':
     col1, col2 = st.columns([2, 7])
     with col1:
         st.image("CarettaCarettaTurtle-Photoroom.png", width=185)
@@ -622,7 +672,7 @@ elif condition == 'Model Prediction':
     st.markdown(hide_menu_style, unsafe_allow_html=True)
 
 ########################## MODEL EVALUATION ###################################
-elif condition == 'Model Evaluation':
+elif selected == 'Model Evaluation':
     col1, col2 = st.columns([2, 7])
     with col1:
         st.image("CarettaCarettaTurtle-Photoroom.png", width=185)
@@ -797,6 +847,54 @@ elif condition == 'Model Evaluation':
     ax.legend()
 
     st.pyplot(fig)
+##########################OUR TEAM ###################################
+elif selected == 'Our Team':
+    count = st_autorefresh(interval=refresh_rate * 1000, key="our-team-slideshow")
+    st.markdown(
+        """
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        """,
+        unsafe_allow_html=True
+    )
+    image_col, title_col = st.columns([1, 3])
+
+    with image_col:
+        st.image("CarettaCarettaTurtle-Photoroom.png", width=185)
+
+    with title_col:
+        st.markdown("<h1 style='text-align: left; margin-top: 50px;'>Our Team</h1>", unsafe_allow_html=True)
+
+
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.image("our_team/mihriban-ozdemir.jpeg", width=200)
+        st.markdown(
+            "<b>Mihriban Özdemir</b>&nbsp;&nbsp;<a href='www.linkedin.com/in/mihribanozdemir' class='fa fa-linkedin'></a>&nbsp;<a href='https://github.com/mihribanozdemir' class='fa fa-github'></a>",
+            unsafe_allow_html=True)
+
+    with col2:
+        st.image("our_team/ceren-kilic.jpeg", width=200)
+        st.markdown(
+            "<b>Ceren Kılıç</b>&nbsp;&nbsp;<a href='https://www.linkedin.com/in/cernkilic/' class='fa fa-linkedin'></a>&nbsp;<a href='https://github.com/cerenkilic' class='fa fa-github'></a>",
+            unsafe_allow_html=True)
+
+    with col3:
+        st.image("our_team/turkan-risvan.jpeg", width=200)
+        st.markdown(
+            "<b>Türkan Rişvan</b>&nbsp;&nbsp;<a href='https://www.linkedin.com/in/t%C3%BCrkan-ri%C5%9Fvan/' class='fa fa-linkedin'></a>&nbsp;<a href='https://github.com/turkan-risvan' class='fa fa-github'></a>",
+            unsafe_allow_html=True)
+
+    our_team_slide_images = [
+        "our-team-slideshow/1.jpg",
+        "our-team-slideshow/2.jpg",
+        "our-team-slideshow/3.jpg",
+        "our-team-slideshow/4.jpg",
+    ]
+
+    slide_index = count % len(our_team_slide_images)
+    slide_image = Image.open(our_team_slide_images[slide_index])
+    slide_image = slide_image.resize((700, 400))
+    st.image(slide_image, use_column_width=True)
 
 
 
