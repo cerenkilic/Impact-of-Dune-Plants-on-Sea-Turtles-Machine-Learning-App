@@ -454,6 +454,8 @@ elif selected == 'EDA':
     plt.grid(True)
     plt.tight_layout()
     st.pyplot(fig)
+
+    """
     st.header("Target Summary with Numeric Columns")
 
     col1, col2 = st.columns(2)
@@ -461,7 +463,7 @@ elif selected == 'EDA':
     selected_column = col1.selectbox('Please select a numerical column', num_cols, key='num_col_select')
     target_value = col2.text_input("Target", value="HS", disabled=True)
 
-
+     
     def target_summary_with_num(dataframe, target, numerical_col):
         temp_df = dataframe.groupby(target).agg({numerical_col: "mean"})
         print(temp_df)
@@ -483,7 +485,7 @@ elif selected == 'EDA':
         # plt.xticks(fontsize=12)
         # plt.yticks(fontsize=12)
         # st.pyplot()
-
+  """
 ########################## MODEL PREDICTION ###################################
 elif selected == 'Model Prediction':
     col1, col2 = st.columns([2, 7])
