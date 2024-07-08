@@ -553,111 +553,138 @@ elif selected == 'Model Prediction':
             </ol>
             """, unsafe_allow_html=True)
 
-    st.subheader("Please enter information about the data 🐢🌿")
+st.subheader("Please enter information about the data 🐢🌿")
 
-    col1, col2 = st.columns([2, 2])
-    with col1:
-        zone = st.number_input("ZoneID", 1, 10, value=5)
-        lat = st.number_input("Lat", 1.0, 50.0, value=27.14)
-        long = st.number_input("Long", -100.0, 0.0, value=-82.48)
-        vegpresence = st.number_input("VegPresence ", 0, 1, value=1)
-        vegtype_options = ['-railroad vine', '-sea oats', 'no', '-sea purslane', "-sea grapes"]
-        vegtype = st.selectbox("VegType", options=vegtype_options)
-        rootpres = st.number_input("RootPresence", 0, 1, value=1)
-        roottype_options = ['Railroad Vine', 'Sea Oats', 'no']
-        roottype = st.selectbox("PlantRoot", options=roottype_options)
-        distbarr = st.number_input("DistBarrier", -20.0, 20.0, value=1.52)
-        disthighw = st.number_input("DistHighWater", 0.0, 1000.0, value=14.05)
-        totaldist = st.number_input("TotalDist", 0.0, 50.0, value=15.54)
-        LocOnBeach = st.number_input("LocOnBeach ", 0.0, 5.0, value=1.02)
-        division_options = ['M', 'U', 'L']
-        Division = st.selectbox("Division", options=division_options)
-        SurfaceDepth = st.number_input("SurfaceDepth ", 0.0, 1000.0, value=20.0)
-        BottomDepth = st.number_input("BottomDepth", 0.0, 1000.0, value=33.0)
-        InternalDepth = st.number_input("InternalDepth ", 0.0, 1000.0, value=20.0)
-        CavityWidth = st.number_input("CavityWidth ", 0.0, 1000.0, value=23.0)
-        Hatched = st.number_input("Hatched ", 0.0, 1000.0, value=45.0)
-        Unhatched = st.number_input("Unhatched", 0.0, 1000.0, value=6.0)
+col1, col2 = st.columns([2, 2])
+with col1:
+    nestId = "99 1010 NEW ONE"
+    zone = st.number_input("ZoneID", 1, 10, value=5)
+    lat = st.number_input("Lat", 1.0, 50.0, value=27.14)
+    long = st.number_input("Long", -100.0, 0.0, value=-82.48)
+    vegpresence = st.number_input("VegPresence ", 0, 1, value=1)
+    vegtype_options = ['-railroad vine', '-sea oats', 'no', '-sea purslane', "-sea grapes"]
+    vegtype = st.selectbox("VegType", options=vegtype_options)
+    rootpres = st.number_input("RootPresence", 0, 1, value=1)
+    roottype_options = ['Railroad Vine', 'Sea Oats', 'no']
+    roottype = st.selectbox("PlantRoot", options=roottype_options)
+    distbarr = st.number_input("DistBarrier", -20.0, 20.0, value=1.52)
+    disthighw = st.number_input("DistHighWater", 0.0, 1000.0, value=14.05)
+    totaldist = st.number_input("TotalDist", 0.0, 50.0, value=15.54)
+    LocOnBeach = st.number_input("LocOnBeach ", 0.0, 5.0, value=1.02)
+    division_options = ['M', 'U', 'L']
+    Division = st.selectbox("Division", options=division_options)
+    SurfaceDepth = st.number_input("SurfaceDepth ", 0.0, 1000.0, value=20.0)
+    BottomDepth = st.number_input("BottomDepth", 0.0, 1000.0, value=33.0)
+    InternalDepth = st.number_input("InternalDepth ", 0.0, 1000.0, value=20.0)
+    CavityWidth = st.number_input("CavityWidth ", 0.0, 1000.0, value=23.0)
+    Hatched = st.number_input("Hatched ", 0.0, 1000.0, value=45.0)
+    Unhatched = st.number_input("Unhatched", 0.0, 1000.0, value=6.0)
 
-    with col2:
-        Developed_UH = st.number_input("Developed_UH ", 0.0, 1000.0, value=16.0)
-        LivePip = st.number_input("LivePip", 0.0, 1000.0, value=1.0)
-        DeadPip = st.number_input("DeadPip ", 0.0, 1000.0, value=5.0)
-        Yolkless = st.number_input("Yolkless  ", 0.0, 1000.0, value=0.0)
-        EncasedTotal = st.number_input("EncasedTotal  ", 0.0, 1000.0, value=0.0)
-        DevEnc_UH = st.number_input("DevEnc_UH", 0.0, 1000.0, value=0.0)
-        H_Encased = st.number_input("H_Encased  ", 0.0, 1000.0, value=0.0)
-        UH_Encased = st.number_input("UH_Encased ", 0.0, 1000.0, value=3.0)
-        InvadedTotal = st.number_input("InvadedTotal  ", 0.0, 1000.0, value=0.0)
-        H_Invaded = st.number_input("H_Invaded", 0.0, 1000.0, value=0.0)
-        UH_Invaded = st.number_input("UH_Invaded", 0.0, 1000.0, value=0.0)
-        Live = st.number_input("Live", 0.0, 1000.0, value=3.0)
-        Dead = st.number_input("Dead", 0.0, 1000.0, value=2.0)
-        Depredated = st.number_input("Depredated  ", 0.0, 1000.0, value=0.0)
-        RootDamageProp = st.number_input("RootDamageProp", 0.0, 1000.0, value=0.0125)
-        ES = st.number_input("ES ", 0.0, 1000.0, value=95.0)
-        TotalEggs = st.number_input("TotalEggs", 0.0, 1000.0, value=65.0)
-        MultiVegNum = 0.0
-        feature_list = [zone, lat, long, vegpresence, vegtype, rootpres, roottype, distbarr, disthighw,
-                            totaldist, LocOnBeach, Division, SurfaceDepth, BottomDepth, InternalDepth,
-                            CavityWidth, Hatched, Unhatched, Developed_UH, LivePip, DeadPip, Yolkless,
-                            EncasedTotal, DevEnc_UH, H_Encased, UH_Encased, InvadedTotal, H_Invaded, UH_Invaded,
-                            Live, Dead, Depredated, RootDamageProp, ES, TotalEggs, MultiVegNum
-                            ]
-        cat_cols, num_cols, cat_but_car = grab_col_names(df_c)
+with col2:
+    Developed_UH = st.number_input("Developed_UH ", 0.0, 1000.0, value=16.0)
+    LivePip = st.number_input("LivePip", 0.0, 1000.0, value=1.0)
+    DeadPip = st.number_input("DeadPip ", 0.0, 1000.0, value=5.0)
+    Yolkless = st.number_input("Yolkless  ", 0.0, 1000.0, value=0.0)
+    EncasedTotal = st.number_input("EncasedTotal  ", 0.0, 1000.0, value=0.0)
+    DevEnc_UH = st.number_input("DevEnc_UH", 0.0, 1000.0, value=0.0)
+    H_Encased = st.number_input("H_Encased  ", 0.0, 1000.0, value=0.0)
+    UH_Encased = st.number_input("UH_Encased ", 0.0, 1000.0, value=3.0)
+    InvadedTotal = st.number_input("InvadedTotal  ", 0.0, 1000.0, value=0.0)
+    H_Invaded = st.number_input("H_Invaded", 0.0, 1000.0, value=0.0)
+    UH_Invaded = st.number_input("UH_Invaded", 0.0, 1000.0, value=0.0)
+    Live = st.number_input("Live", 0.0, 1000.0, value=3.0)
+    Dead = st.number_input("Dead", 0.0, 1000.0, value=2.0)
+    Depredated = st.number_input("Depredated  ", 0.0, 1000.0, value=0.0)
+    RootDamageProp = st.number_input("RootDamageProp", 0.0, 1000.0, value=0.0125)
+    ES = st.number_input("ES ", 0.0, 1000.0, value=95.0)
+    TotalEggs = st.number_input("TotalEggs", 0.0, 1000.0, value=65.0)
 
-        from sklearn.preprocessing import RobustScaler, OneHotEncoder
-        from sklearn.compose import ColumnTransformer
+    feature_list = [id,zone, lat, long, vegpresence, vegtype, rootpres, roottype, distbarr, disthighw,
+                    totaldist, LocOnBeach, Division, SurfaceDepth, BottomDepth, InternalDepth,
+                    CavityWidth, Hatched, Unhatched, Developed_UH, LivePip, DeadPip, Yolkless,
+                    EncasedTotal, DevEnc_UH, H_Encased, UH_Encased, InvadedTotal, H_Invaded, UH_Invaded,
+                    Live, Dead, Depredated, RootDamageProp, ES, TotalEggs
+                    ]
 
-        columns = ['ZoneID', 'Lat', 'Long', 'VegPresence', 'VegType', 'RootPresence', 'PlantRoot', 'DistBarrier', 'DistHighWater', 'TotalDist',
-                   'LocOnBeach', 'Divisions', 'SurfaceDepth', 'BottomDepth', 'InternalDepth', 'CavityWidth', 'Hatched', 'Unhatched', 'Developed_UH',
-                   'LivePip', 'DeadPip', 'Yolkless', 'EncasedTotal', 'DevEnc_UH',
-                   'H_Encased', 'UH_Encased', 'InvadedTotal', 'H_Invaded', 'UH_Invaded', 'Live', 'Dead', 'Depredated', 'RootDamageProp'
-                   , 'ES', 'TotalEggs', 'MultiVegNum']
+    cat_cols, num_cols, cat_but_car = grab_col_names(df_c)
 
-        preprocessor = ColumnTransformer(
-            transformers=[
-                ('num', RobustScaler(), num_cols),
-                ('cat', OneHotEncoder(), cat_cols)
-            ])
+    columns = ["NestID",'ZoneID', 'Lat', 'Long', 'VegPresence', 'VegType', 'RootPresence', 'PlantRoot', 'DistBarrier',
+               'DistHighWater', 'TotalDist', 'LocOnBeach', 'Divisions', 'SurfaceDepth', 'BottomDepth',
+               'InternalDepth', 'CavityWidth', 'Hatched', 'Unhatched', 'Developed_UH', 'LivePip', 'DeadPip',
+               'Yolkless', 'EncasedTotal', 'DevEnc_UH', 'H_Encased', 'UH_Encased', 'InvadedTotal', 'H_Invaded',
+               'UH_Invaded', 'Live', 'Dead', 'Depredated', 'RootDamageProp', 'ES', 'TotalEggs']
 
-        def one_hot_encoder(dataframe, categoric_cols, drop_first=False):
-            dataframe = pd.get_dummies(dataframe, columns=categoric_cols, drop_first=drop_first, dtype=int)
-            return dataframe
+    expected_org_names = ['DistBarrier', 'DistHighWater', 'TotalDist', 'LocOnBeach',
+       'SurfaceDepth', 'BottomDepth', 'InternalDepth', 'CavityWidth',
+       'Hatched', 'Unhatched', 'Developed_UH', 'DeadPip', 'EncasedTotal',
+       'H_Encased', 'UH_Encased', 'Live', 'RootDamageProp', 'ES', 'TotalEggs',
+       'VegType_-christmas cactus', 'VegType_-crested saltbrush',
+       'VegType_-dune sunflower', 'VegType_-palm', 'VegType_-railroad vine',
+       'VegType_-salt grass', 'VegType_-sea grapes', 'VegType_-sea oats',
+       'VegType_-sea purslane', 'VegType_-seaside spurge (sandmat)',
+       'VegType_-unknown', 'VegType_no', 'PlantRoot_Sea Oats', 'PlantRoot_no',
+       'Divisions_M', 'Divisions_U', 'ZoneID_4.0', 'ZoneID_5.0', 'ZoneID_6.0',
+       'ZoneID_7.0', 'ZoneID_8.0', 'ZoneID_9.0', 'Lat_27.13', 'Lat_27.14',
+       'Lat_27.15', 'Lat_27.16', 'Long_-82.49', 'Long_-82.48', 'Long_-82.47',
+       'VegPresence_1.0', 'RootPresence_1.0', 'LivePip_1.0', 'LivePip_2.0',
+       'LivePip_3.0', 'LivePip_7.0', 'Yolkless_1.0', 'Yolkless_2.0',
+       'DevEnc_UH_1.0', 'DevEnc_UH_3.0', 'DevEnc_UH_6.0', 'DevEnc_UH_nan',
+       'InvadedTotal_1.0', 'InvadedTotal_2.0', 'InvadedTotal_3.0',
+       'InvadedTotal_5.0', 'InvadedTotal_6.0', 'InvadedTotal_10.0',
+       'InvadedTotal_19.0', 'H_Invaded_5.0', 'H_Invaded_6.0', 'H_Invaded_12.0',
+       'UH_Invaded_1.0', 'UH_Invaded_2.0', 'UH_Invaded_3.0', 'UH_Invaded_7.0',
+       'UH_Invaded_10.0', 'UH_Invaded_nan', 'Dead_1.0', 'Dead_2.0', 'Dead_3.0',
+       'Dead_4.0', 'Dead_5.0', 'Dead_7.0', 'Depredated_7.0', 'Depredated_13.0',
+       'Depredated_26.0', 'Depredated_31.0', 'Depredated_36.0',
+       'Depredated_38.0', 'Depredated_82.49999999999989', 'MultiVegNum_1',
+       'MultiVegNum_2', 'MultiVegNum_3', 'MultiVegNum_4']
 
-        expected_names = ['VegPresence', 'RootPresence', 'DistBarrier', 'DistHighWater', 'TotalDist', 'LocOnBeach', 'SurfaceDepth', 'BottomDepth', 'InternalDepth', 'CavityWidth', 'Hatched', 'Unhatched', 'Developed_UH', 'DeadPip', 'EncasedTotal', 'H_Encased', 'UH_Encased', 'Live', 'RootDamageProp', 'ES', 'TotalEggs', 'VegType_-christmas cactus', 'VegType_-crested saltbrush', 'VegType_-dune sunflower', 'VegType_-palm', 'VegType_-railroad vine', 'VegType_-salt grass', 'VegType_-sea grapes', 'VegType_-sea oats',
-       'VegType_-sea purslane', 'VegType_-seaside spurge (sandmat)', 'VegType_-unknown', 'VegType_no', 'PlantRoot_Sea Oats', 'PlantRoot_no', 'Divisions_M', 'Divisions_U', 'ZoneID_4.0', 'ZoneID_5.0', 'ZoneID_6.0', 'ZoneID_7.0', 'ZoneID_8.0', 'ZoneID_9.0', 'Lat_27.13', 'Lat_27.14', 'Lat_27.15', 'Lat_27.16', 'Long_-82.49', 'Long_-82.48', 'Long_-82.47', 'LivePip_1.0', 'LivePip_2.0', 'LivePip_3.0', 'LivePip_7.0', 'Yolkless_1.0', 'Yolkless_2.0', 'DevEnc_UH_0.1956521739130435', 'DevEnc_UH_1.0',
-       'DevEnc_UH_3.0', 'DevEnc_UH_6.0', 'InvadedTotal_1.0', 'InvadedTotal_2.0', 'InvadedTotal_3.0', 'InvadedTotal_5.0', 'InvadedTotal_6.0', 'InvadedTotal_10.0', 'InvadedTotal_19.0', 'H_Invaded_5.0', 'H_Invaded_6.0', 'H_Invaded_12.0', 'UH_Invaded_0.30434782608695654', 'UH_Invaded_1.0', 'UH_Invaded_2.0', 'UH_Invaded_3.0', 'UH_Invaded_7.0', 'UH_Invaded_10.0', 'Dead_1.0', 'Dead_2.0', 'Dead_3.0', 'Dead_4.0', 'Dead_5.0', 'Dead_7.0', 'MultiVegNum_1', 'MultiVegNum_2', 'MultiVegNum_3',
-       'MultiVegNum_4']
+    cat_cols, num_cols, cat_but_car = grab_col_names(df_c)
+    new_data = pd.DataFrame([feature_list], columns=columns)
+    df = pd.read_csv(r"C:\Users\kilic\PycharmProjects\cerenPyProje\Impact-of-Dune-Plants-on-Sea-Turtles-Machine-Learning-App-main\ReddingRootsCaseStudy22_csv.csv")
+    df = df.drop(columns=["Comments", "Notes", "Unnamed: 42", "Species", "Key", "ExDate"])
+    df = df[0:93]
+    df = pd.concat([df, new_data], ignore_index=True)
+    X, y, df = carettas_data_prep(df)
+    df_lr = df.drop("HS", axis=1)
+    last_row = X.iloc[-1:]
+    df_reset = last_row.reset_index(drop=True)
+    new_col_names = last_row.columns
+    last_row = last_row.reindex(columns=expected_org_names, fill_value=0)
 
-        df_c = get_cleaned_data()
-        cat_cols, num_cols, cat_but_car = grab_col_names(df_c)
-
-        if st.button('Predict'):
-            new_data = pd.DataFrame([feature_list], columns=columns)
-            df_c = df_c.drop("HS",axis=1)
-            df_c = pd.concat([df_c, new_data], ignore_index=True)
-            df_c = one_hot_encoder(df_c, cat_cols, drop_first=True)
-            scaler = RobustScaler()
-            num_cols.remove('HS')
-            df_c[num_cols] = scaler.fit_transform(df_c[num_cols])
-            last_row = df_c.iloc[-1:]
-            last_row = last_row.rename(columns=dict(zip(last_row.columns, expected_names)))
-            if model_option == "Linear Regression":
-                model = load_model("IC_lin_reg_model.pkl")
-                prediction = model.predict(last_row)
-                st.write('## Result')
-                st.success(f"Hatching Success Prediction: {prediction.item()}")
-            elif model_option == "Decision Tree":
-                model = load_model("IC_cart_model.pkl")
-                prediction = model.predict(last_row)
-                st.write('## Result:')
-                st.success(f"Hatching Success Prediction: {prediction.item()}")
-            elif model_option == "Random Forest":
-                model = load_model("IC_rf_model.pkl")
-                prediction = model.predict(last_row)
-                st.write('## Result:')
-                st.success(f"Hatching Success Prediction: {prediction.item()}")
+    if st.button('Predict'):
+        if model_option == "Linear Regression":
+            model = load_model(r"C:\Users\kilic\PycharmProjects\cerenPyProje\Impact-of-Dune-Plants-on-Sea-Turtles-Machine-Learning-App-main\LR_model_050724.pkl")
+            prediction = model.predict(last_row)
+            st.write('## Result')
+            st.success(f"Hatching Success Prediction: {prediction.item():.2f}%")
+        elif model_option == "Decision Tree":
+            model = load_model(r"C:\Users\kilic\PycharmProjects\cerenPyProje\Impact-of-Dune-Plants-on-Sea-Turtles-Machine-Learning-App-main\nnCART_model_080724.pkl")
+            prediction = model.predict(last_row)
+            st.write('## Result:')
+            st.success(f"Hatching Success Prediction: {prediction.item():.2f}%")
+        elif model_option == "Random Forest":
+            model = load_model(r"C:\Users\kilic\PycharmProjects\cerenPyProje\Impact-of-Dune-Plants-on-Sea-Turtles-Machine-Learning-App-main\nnRF_model_080724.pkl")
+            prediction = model.predict(last_row)
+            st.write('## Result:')
+            st.success(f"Hatching Success Prediction: {prediction.item():.2f}%")
+        elif model_option == "ElasticNet":
+            model = load_model(r"C:\Users\kilic\PycharmProjects\cerenPyProje\Impact-of-Dune-Plants-on-Sea-Turtles-Machine-Learning-App-main\nnENet_model_080724.pkl")
+            prediction = model.predict(last_row)
+            st.write('## Result:')
+            st.success(f"Hatching Success Prediction: {prediction.item():.2f}%")
+        elif model_option == "SVR":
+            model = load_model(r"C:\Users\kilic\PycharmProjects\cerenPyProje\Impact-of-Dune-Plants-on-Sea-Turtles-Machine-Learning-App-main\nnSVR_model_080724.pkl")
+            prediction = model.predict(last_row)
+            st.write('## Result:')
+            st.success(f"Hatching Success Prediction: {prediction.item():.2f}%")
+        elif model_option == "XGBoost":
+            model = load_model(r"C:\Users\kilic\PycharmProjects\cerenPyProje\Impact-of-Dune-Plants-on-Sea-Turtles-Machine-Learning-App-main\nnXGBRegressor_model_080724.pkl")
+            prediction = model.predict(last_row)
+            st.write('## Result:')
+            st.success(f"Hatching Success Prediction: {prediction.item():.2f}%")
+        progress = int(prediction)
+        st.progress(progress)
 
     hide_menu_style = """
         <style>
