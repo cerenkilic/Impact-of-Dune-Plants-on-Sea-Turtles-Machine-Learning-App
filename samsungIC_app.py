@@ -502,16 +502,18 @@ elif selected == 'Model Prediction':
         loaded_model = pickle.load(open(modelfile, 'rb'))
         return loaded_model
 
+
     model_option = st.selectbox(
         "Select Machine Learning Model:",
-        ("Random Forest", "Decision Tree", "Linear Regression")
+        ("Random Forest", "Decision Tree", "ElasticNet", "SVR", "XGBoost", "Linear Regression")
     )
-
     html_temp = """
-            <div>
-            <h1 style="color:BLACK;text-align:left;"> Enter New Data and Predict</h1>
-            </div>
-            """
+                <div>
+                <h1 style="color:BLACK;text-align:left;"> Predictive Analytics for Scientists</h1>
+                </div>
+                """
+    st.subheader("Please enter information about the data 🐢🌿")
+
     st.markdown(html_temp, unsafe_allow_html=True)
     with st.expander(" ℹ️ Information About the Features", expanded=False):
      st.write("""
@@ -608,6 +610,45 @@ elif selected == 'Model Prediction':
                         Live, Dead, Depredated, RootDamageProp, ES, TotalEggs
                         ]
 
+        def outlier_thresholds(dataframe, col_name, q1=0.05, q3=0.95):
+            quartile1 = dataframe[col_name].quantile(q1)
+            quartile3 = dataframe[col_name].quantile(q3)
+            IQR_range = quartile3 - quartile1
+            up_lim = quartile3 + 1.5 * IQR_range
+            low_lim = quartile1 - 1.5 * IQR_range
+            return low_lim, up_lim
+
+        def grab_outliers(dataframe, col_name, index=False):
+            low, up = outlier_thresholds(dataframe, col_name)
+            count = dataframe[(dataframe[col_name] < low) | (dataframe[col_name] > up)][col_name].shape[0]
+            print(col_name.upper(), f" has {count} outliers.")
+            if dataframe[(dataframe[col_name] < low) | (dataframe[col_name] > up)].shape[0] != 0:
+                if dataframe[(dataframe[col_name] < low) | (dataframe[col_name] > up)].shape[0] > 10:
+                    print(dataframe[(dataframe[col_name] < low) | (dataframe[col_name] > up)].head(5))
+                else:
+                    print(dataframe[(dataframe[col_name] < low) | (dataframe[col_name] > up)])
+            if index:
+                outlier_index = (dataframe[(dataframe[col_name] < low) | (dataframe[col_name] > up)]).index
+                return outlier_index
+
+        def check_outlier(dataframe, col_name):
+            low, up = outlier_thresholds(dataframe, col_name)
+            if dataframe[(dataframe[col_name] < low) | (dataframe[col_name] > up)].any(axis=None):
+                return True
+            else:
+                return False
+
+
+        def replace_with_thresholds(dataframe, variable, q1=0.05, q3=0.90):
+            low, up = outlier_thresholds(dataframe, variable, q1=0.05, q3=0.90)
+            dataframe.loc[(dataframe[variable] < low), variable] = low
+            dataframe.loc[(dataframe[variable] > up), variable] = up
+        def check_outlier(dataframe, col_name):
+            low, up = outlier_thresholds(dataframe, col_name)
+            if dataframe[(dataframe[col_name] < low) | (dataframe[col_name] > up)].any(axis=None):
+                return True
+            else:
+                return False
 
         def one_hot_encoder1(dataframe,
                              categorical_cols):  # bu yeni datayla farklılık olmasın diye sonra da işimize yarayacak.
@@ -627,8 +668,8 @@ elif selected == 'Model Prediction':
 
 
         def carettas_data_prep(df):
-            df = df.drop(columns=["Comments", "Notes", "Unnamed: 42", "Species", "Key", "ExDate"])
-            df = df[0:93]
+            # df = df.drop(columns=["Comments", "Notes", "Unnamed: 42", "Species", "Key", "ExDate"])
+            # df = df[0:93]
             cat_cols, num_cols, cat_but_car = grab_col_names(df, cat_th=10, car_th=20)
             cat_cols.append("VegType")
             # missing value handling:
@@ -639,7 +680,6 @@ elif selected == 'Model Prediction':
             df["Divisions"].fillna(df["Divisions"].mode()[0], inplace=True)
             df["VegType"].fillna("no", inplace=True)
             df["PlantRoot"].fillna("no", inplace=True)
-
             # outlier handling
             for col in num_cols:
                 # print(col, check_outlier(df, col))
@@ -663,7 +703,6 @@ elif selected == 'Model Prediction':
             cleaned_df = df[~multi_entries_mask]
             df = pd.concat([cleaned_df, new_df], ignore_index=True)  # merged_df --> df
             # VegType yazım hatalarını düzeltme:
-
             corrections = {
                 " -railorad vine": "-railroad vine",
                 "-railorad vine": "-railroad vine",
@@ -700,7 +739,7 @@ elif selected == 'Model Prediction':
             num_cols = [col for col in num_cols if col != 'HS']
             X_scaled = RobustScaler().fit_transform(X[num_cols])
             X[num_cols] = pd.DataFrame(X_scaled, columns=X[num_cols].columns)
-            return X, y
+            return X, y, df
 
         cat_cols, num_cols, cat_but_car = grab_col_names(df_c)
 
@@ -738,7 +777,8 @@ elif selected == 'Model Prediction':
 
         cat_cols, num_cols, cat_but_car = grab_col_names(df_c)
         new_data = pd.DataFrame([feature_list], columns=columns)
-        df = pd.read_csv("ReddingRootsCaseStudy22_csv.csv")
+        df = pd.read_csv(
+            r"C:\Users\kilic\PycharmProjects\cerenPyProje\Impact-of-Dune-Plants-on-Sea-Turtles-Machine-Learning-App-main\ReddingRootsCaseStudy22_csv.csv")
         df = df.drop(columns=["Comments", "Notes", "Unnamed: 42", "Species", "Key", "ExDate"])
         df = df[0:93]
         df = pd.concat([df, new_data], ignore_index=True)
@@ -782,7 +822,7 @@ elif selected == 'Model Prediction':
                 st.success(f"Hatching Success Prediction: {prediction.item():.2f}%")
             progress = int(prediction)
             st.progress(progress)
-            #
+
     hide_menu_style = """
         <style>
         #MainMenu {visibility: hidden;}
