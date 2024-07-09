@@ -777,8 +777,7 @@ elif selected == 'Model Prediction':
 
         cat_cols, num_cols, cat_but_car = grab_col_names(df_c)
         new_data = pd.DataFrame([feature_list], columns=columns)
-        df = pd.read_csv(
-            r"C:\Users\kilic\PycharmProjects\cerenPyProje\Impact-of-Dune-Plants-on-Sea-Turtles-Machine-Learning-App-main\ReddingRootsCaseStudy22_csv.csv")
+        df = pd.read_csv("ReddingRootsCaseStudy22_csv.csv")
         df = df.drop(columns=["Comments", "Notes", "Unnamed: 42", "Species", "Key", "ExDate"])
         df = df[0:93]
         df = pd.concat([df, new_data], ignore_index=True)
