@@ -777,7 +777,8 @@ elif selected == 'Model Prediction':
 
         cat_cols, num_cols, cat_but_car = grab_col_names(df_c)
         new_data = pd.DataFrame([feature_list], columns=columns)
-        df = pd.read_csv("ReddingRootsCaseStudy22_csv.csv")
+        df = pd.read_csv(
+            r"C:\Users\kilic\PycharmProjects\cerenPyProje\Impact-of-Dune-Plants-on-Sea-Turtles-Machine-Learning-App-main\ReddingRootsCaseStudy22_csv.csv")
         df = df.drop(columns=["Comments", "Notes", "Unnamed: 42", "Species", "Key", "ExDate"])
         df = df[0:93]
         df = pd.concat([df, new_data], ignore_index=True)
@@ -849,15 +850,15 @@ elif selected == 'Model Evaluation':
             ### Performance Metrics""")
     col1, col2, col3 = st.columns([3,3, 3])
     with col1:
-        st.markdown("""Root Mean Squared Error (RMSE)""")
-        st.image("rmse.jpg", width=220)
+        st.markdown("""Mean Absolute Error (MAE)""")
+        st.image("MAE.png", width=220)
 
     with col2:
         st.markdown("""Mean Squared Error (MSE)""")
         st.image("MSE.png", width=220)
     with col3:
         st.markdown("""R2 Score""")
-        st.image("R2formula.png", width=220)
+        st.image("r2.png", width=220)
 
     model_option = st.selectbox(
         "Select machine learning model to see its results:",
@@ -865,126 +866,210 @@ elif selected == 'Model Evaluation':
     )
 
     if model_option == "Random Forest":
-        col1, col2, col3 = st.columns([1, 1, 1])
+        st.markdown("""### Random Forest Model Results:""")
+        st.markdown("""(5 fold cross validation is applied.)""")
+        st.markdown("""RFE: Recursive Feature Elimination""")
+
+        col1, col2, col3 = st.columns([1, 1,1])
         with col1:
-            st.markdown("""Train Results:""")
+            st.markdown("""Before HP Tuning:""")
             rf_res = {
-                'Metric': ["MSE", "RMSE", "R2"],
-                'Result': [0.01077, 0.1037, 0.9945]
+                'Metric': ["MSE", "MAE", "R2"],
+                'Result': [23.3109, 3.1591, 0.9573]
             }
             rfres1 = pd.DataFrame(rf_res)
             st.write(rfres1)
         with col2:
-            st.markdown("""Test Results:""")
+            st.markdown("""After HP Tuning:""")
             rf_res = {
-                'Metric': ["MSE", "RMSE", "R2"],
-                'Result': [0.0276, 0.1663, 0.9837]
+                'Metric': ["MSE", "MAE", "R2"],
+                'Result': [20.9452, 3.0095, 0.95737]
             }
             rfres1 = pd.DataFrame(rf_res)
             st.write(rfres1)
+
         with col3:
-            st.markdown("""5 fold CV + HP Tuning Results:""")
+            st.markdown("""RFE Results:""")
             rf_res = {
-                'Metric': ["MSE", "RMSE", "R2"],
-                'Result': [0.37484, 0.0560, 0.9581]
+                'Metric': ["MSE", "MAE", "R2"],
+                'Result': [19.6486, 2.9414, 0.9583]
             }
             rfres1 = pd.DataFrame(rf_res)
             st.write(rfres1)
+
+        st.image("rfe_images/RF_rfecv_visualization.png",width=700)
 
     if model_option == "Decision Tree":
+        st.markdown("""### Decision Tree Model Results:""")
+        st.markdown("""(5 fold cross validation is applied to obtain all the results.)""")
+
         col1, col2, col3 = st.columns([1, 1, 1])
         with col1:
-            st.markdown("""Train Results:""")
+            st.markdown("""Before HP Tuning:""")
+            rf_res = {
+                'Metric': ["MSE", "MAE", "R2"],
+                'Result': [39.7303, 4.4694, 0.8887]
+            }
+            rfres1 = pd.DataFrame(rf_res)
+            st.write(rfres1)
+        with col2:
+            st.markdown("""After HP Tuning:""")
+            rf_res = {
+                'Metric': ["MSE", "MAE", "R2"],
+                'Result': [28.5947, 3.6541, 0.9311]
+            }
+            rfres1 = pd.DataFrame(rf_res)
+            st.write(rfres1)
+
+        with col3:
+            st.markdown("""RFE Results:""")
+            rf_res = {
+                'Metric': ["MSE", "MAE", "R2"],
+                'Result': [28.8450, 3.6859, 0.9309]
+            }
+            rfres1 = pd.DataFrame(rf_res)
+            st.write(rfres1)
+
+        st.image("rfe_images/CART_rfecv_visualization.png", width=700)
+
+    if model_option == "Linear Regression":
+            st.markdown("""### Linear Regression Model Results:""")
+            st.markdown("""(5 fold cross validation is applied to obtain all the results.)""")
+            st.markdown("""RFE: Recursive Feature Elimination""")
+
+            col1, col2, col3 = st.columns([1, 1, 1])
+            with col1:
+                st.markdown("""Before HP Tuning:""")
+                dt_res = {
+                    'Metric': ["MSE", "MAE", "R2"],
+                    'Result': [952.1115, 9.2696, -0.9017]
+                }
+                dtres1 = pd.DataFrame(dt_res)
+                st.write(dtres1)
+            with col2:
+                st.markdown("""After HP Tuning:""")
+                dt_res = {
+                    'Metric': ["MSE", "MAE", "R2"],
+                    'Result': [952.1115, 9.2696, 0.9017]
+                }
+                dtres1 = pd.DataFrame(dt_res)
+                st.write(dtres1)
+            with col3:
+                st.markdown("""RFE Results:""")
+                dt_res = {
+                    'Metric': ["MSE", "MAE", "R2"],
+                    'Result': [206.8268, 1.8211, 0.5705]
+                }
+                dtres1 = pd.DataFrame(dt_res)
+                st.write(dtres1)
+
+            st.image("rfe_images/LR_rfecv_visualization.png", width=700)
+
+    if model_option == "SVR":
+        st.markdown("""### Support Vector Machine (Regressor) Model Results:""")
+        st.markdown("""(5 fold cross validation is applied to obtain all the results.)""")
+        col1, col2, col3 = st.columns([1, 1, 1])
+        with col1:
+            st.markdown("""Before HP Tuning:""")
             dt_res = {
-                'Metric': ["MSE", "RMSE", "R2"],
-                'Result': ["2.045e-35", "4.522e-18", 1.0]
+                'Metric': ["MSE", "MAE", "R2"],
+                'Result': [732.7053, 16.6085, -0.0998]
             }
             dtres1 = pd.DataFrame(dt_res)
             st.write(dtres1)
         with col2:
-            st.markdown("""Test Results:""")
+            st.markdown("""After HP Tuning:""")
             dt_res = {
-                'Metric': ["MSE", "RMSE", "R2"],
-                'Result': [0.0084, 0.0924, 0.9949]
+                'Metric': ["MSE", "MAE", "R2"],
+                'Result': [3.1643, 1.1800, 0.9937]
             }
             dtres1 = pd.DataFrame(dt_res)
             st.write(dtres1)
         with col3:
-            st.markdown("""5 fold CV + HP Tuning Results:""")
+            st.markdown("""RFE Results:""")
             dt_res = {
-                'Metric': ["MSE", "RMSE", "R2"],
-                'Result': [0.35915, 0.15984, 0.87666]
+                'Metric': ["MSE", "MAE", "R2"],
+                'Result': [2.0679, 0.7905, 0.9961]
             }
             dtres1 = pd.DataFrame(dt_res)
             st.write(dtres1)
 
-    if model_option == "Linear Regression": #MSE VE RMSE DEĞERLERİNİ HENÜZ YOK.
+    if model_option == "ElasticNet":
+            st.markdown("""### ElasticNet  Model Results:""")
+            st.markdown("""(5 fold cross validation is applied to obtain all the results.)""")
+            st.markdown("""RFE: Recursive Feature Elimination""")
+
             col1, col2, col3 = st.columns([1, 1, 1])
             with col1:
-                st.markdown("""Train Results:""")
+                st.markdown("""Before HP Tuning:""")
                 dt_res = {
-                    'Metric': ["MSE", "RMSE", "R2"],
-                    'Result': [0, 0, 0.999]
+                    'Metric': ["MSE", "MAE", "R2"],
+                    'Result': [105.0971, 6.3360, 0.8554]
                 }
                 dtres1 = pd.DataFrame(dt_res)
                 st.write(dtres1)
             with col2:
-                st.markdown("""Test Results:""")
+                st.markdown("""After HP Tuning:""")
                 dt_res = {
-                    'Metric': ["MSE", "RMSE", "R2"],
-                    'Result': [0, 0, 1.0]
+                    'Metric': ["MSE", "MAE", "R2"],
+                    'Result': [1.0494, 0.6191, 0.9978]
                 }
                 dtres1 = pd.DataFrame(dt_res)
                 st.write(dtres1)
             with col3:
-                st.markdown("""5 fold CV + HP Tuning Results:""")
+                st.markdown("""RFE Results:""")
                 dt_res = {
-                    'Metric': ["MSE", "RMSE", "R2"],
-                    'Result': [0.3867, 0.48432, 0.7738]
+                    'Metric': ["MSE", "MAE", "R2"],
+                    'Result': [1.0494, 0.619, 0.9978]
                 }
                 dtres1 = pd.DataFrame(dt_res)
                 st.write(dtres1)
 
-    if model_option == "SVR":
+            st.image("rfe_images/ENet_rfecv_visualization.png", width=700)
+
+    if model_option == "XGBRegressor":
+            st.markdown("""### XGBoost (Regressor)  Model Results:""")
+            st.markdown("""(5 fold cross validation is applied to obtain all the results.)""")
+            st.markdown("""RFE: Recursive Feature Elimination""")
+
             col1, col2, col3 = st.columns([1, 1, 1])
             with col1:
-                st.markdown("""Train Results:""")
+                st.markdown("""Before HP Tuning:""")
                 dt_res = {
-                    'Metric': ["MSE", "RMSE", "R2"],
-                    'Result': [0.5799, 0.7615, 0.7069]
+                    'Metric': ["MSE", "MAE", "R2"],
+                    'Result': [59.9960, 4.0882, 0.8926]
                 }
                 dtres1 = pd.DataFrame(dt_res)
                 st.write(dtres1)
             with col2:
-                st.markdown("""Test Results:""")
+                st.markdown("""After HP Tuning:""")
                 dt_res = {
-                    'Metric': ["MSE", "RMSE", "R2"],
-                    'Result': [0.5454, 0.7385, 0.6802]
+                    'Metric': ["MSE", "MAE", "R2"],
+                    'Result': [31.9786, 3.4557, 0.9557]
                 }
                 dtres1 = pd.DataFrame(dt_res)
                 st.write(dtres1)
             with col3:
-                st.markdown("""5 fold CV + HP Tuning Results:""")
+                st.markdown("""RFE Results:""")
                 dt_res = {
-                    'Metric': ["MSE", "RMSE", "R2"],
-                    'Result': [0.1108, 0.0152, 0.9913]
+                    'Metric': ["MSE", "MAE", "R2"],
+                    'Result': [50.3124, 4.0194, 0.9194]
                 }
                 dtres1 = pd.DataFrame(dt_res)
                 st.write(dtres1)
 
+            st.image("rfe_images/XGB_Regressor_rfecv_visualization.png", width=700)
 
+    #model performances grafiği:
+    model_names = ['RANDOM FOREST', 'DECISION TREE','SVR',"ENET","XGBOOST"]
+    mse_scores = [20.945, 28.594, 3.1643, 1.049, 31.978]
+    mae_scores = [3.009, 3.654, 1.18, 0.619, 3.455]
+    r2_scores = [0.9573, 0.9311, 0.993, 0.9978, 0.9557]
 
-    # Örnek veriler oluşturalım
-    model_names = ['RANDOM FOREST', 'DECISION TREE', 'LINEAR REGRESSION', 'SVR']
-    mse_scores = [0.05607,0.15984, 0.38674, 0.01528]
-    rmse_scores = [0.37484, 0.35915, 0.48432, 0.11087]
-    r2_scores = [0.95814, 0.87666, 0.77388, 0.99136]
-
-    # DataFrame oluşturalım
     df_scores = pd.DataFrame({
         'Model': model_names,
         'MSE': mse_scores,
-        'RMSE': rmse_scores,
+        'MAE': mae_scores,
         'R2': r2_scores
     })
 
@@ -993,24 +1078,30 @@ elif selected == 'Model Evaluation':
 
     bar_width = 0.2
     model_indices = range(len(df_scores.index))
-    metrics = ['MSE', 'RMSE', 'R2']
-    colors = [(102/255, 204/255, 102/255), (0/255, 102/255, 204/255), (255/255, 128/255, 192/255)]
+    metrics = ['MSE', 'MAE', 'R2']
+    colors = ['#f5a454', '#94bea3', '#bce6ec']
 
-    for i, metric in enumerate(metrics):
-        bars = ax.bar([p + i * bar_width for p in model_indices],
-               df_scores[metric],
-               width=bar_width,
-               color=colors[i],
-               label=metric)
-
+    fig, ax = plt.subplots(figsize=(10, 6))
+    ax.bar(df_scores.index, df_scores['MSE'], color=colors[0])
     ax.set_xlabel('Models')
-    ax.set_ylabel('Scores')
-    ax.set_title('Model Performances')
-    ax.set_xticks([p + 1.5 * bar_width for p in model_indices])
-    ax.set_xticklabels(df_scores.index)
-    ax.legend()
-
+    ax.set_ylabel('MSE Scores')
+    ax.set_title('Model MSE Performances')
     st.pyplot(fig)
+
+    fig, ax = plt.subplots(figsize=(10, 6))
+    ax.bar(df_scores.index, df_scores['MAE'], color=colors[1])
+    ax.set_xlabel('Models')
+    ax.set_ylabel('MAE Scores')
+    ax.set_title('Model MAE Performances')
+    st.pyplot(fig)
+
+    fig, ax = plt.subplots(figsize=(10, 6))
+    ax.bar(df_scores.index, df_scores['R2'], color=colors[2])
+    ax.set_xlabel('Models')
+    ax.set_ylabel('R2 Scores')
+    ax.set_title('Model R2 Performances')
+    st.pyplot(fig)
+
 ##########################OUR TEAM ###################################
 elif selected == 'Our Team':
     count = st_autorefresh(interval=refresh_rate * 1000, key="our-team-slideshow")
