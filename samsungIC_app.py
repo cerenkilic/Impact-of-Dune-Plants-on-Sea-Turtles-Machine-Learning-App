@@ -1057,7 +1057,7 @@ elif selected == 'Model Evaluation':
                 dtres1 = pd.DataFrame(dt_res)
                 st.write(dtres1)
 
-            st.image("rfe_images/XGB_Regressor_rfecv_visualization.png", width=700)
+            st.image("rfe_images/XGBRegressor_rfecv_visualization.png", width=700)
 
     #model performances grafiği:
     model_names = ['RANDOM FOREST', 'DECISION TREE','SVR',"ENET","XGBOOST"]
