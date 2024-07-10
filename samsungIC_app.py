@@ -118,8 +118,9 @@ def num_summary(dataframe, col_name, plot=False):
         if plot:
             fig, ax = plt.subplots(figsize=(10, 6))
             dataframe[col_name].hist(bins=20, color="#4b7369")
-            plt.xlabel(col_name)
-            plt.title(col_name)
+            plt.xlabel("Value", fontsize=14)
+            plt.ylabel("Frequency", fontsize=14)
+            plt.title(col_name, fontsize=14)
             st.pyplot(fig)
 
 ########################## INTRODUCTION ###################################
@@ -385,8 +386,8 @@ elif selected == 'EDA':
     fig, ax = plt.subplots(figsize=(10, 6))
     sns.countplot(x=df_c[selected_column], ax=ax)
     plt.title(f'Histogram: {selected_column}', fontsize=15)
-    plt.xlabel(selected_column, fontsize=17)
-    plt.ylabel('Frequency', fontsize=17)
+    plt.xlabel(selected_column, fontsize=14)
+    plt.ylabel('Frequency', fontsize=14)
     plt.grid(True)
     plt.xticks(rotation=45)
     plt.tight_layout()
