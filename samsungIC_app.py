@@ -111,7 +111,7 @@ def grab_col_names(dataframe, cat_th=10, car_th=20):  #kategorik, nümerik deği
 
 def num_summary(dataframe, col_name, plot=False):
     quantiles = [0.05, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 0.99]
-    col1, col2 = st.columns([1, 4])
+    col1, col2 = st.columns([1, 3])
     with col1:
         st.write(dataframe[col_name].describe(quantiles).T)
     with col2:
