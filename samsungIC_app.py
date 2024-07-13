@@ -478,6 +478,34 @@ elif selected == 'EDA':
 
     target_summary_with_num(df_raw, "HS", selected_column)
 
+    st.header("Target Summary with VegTypes")
+
+
+    def target_summary_with_vegtypes(dataframe, target):
+        summary_df = dataframe.groupby('VegType').agg(
+            mean_target=(target, 'mean'),
+            count_target=(target, 'count')
+        ).sort_values(by='mean_target')
+
+        fig, ax = plt.subplots(figsize=(15, 7))
+        summary_df['mean_target'].plot(kind='barh', color='#4b7369', ax=ax)
+
+        for index, value in enumerate(summary_df['mean_target']):
+            count = summary_df['count_target'][index]
+            ax.text(value, index, f' {count}', va='center', ha='left', color='black', fontsize=10)
+
+        plt.xlabel('Hatching Success (HS)')
+        plt.ylabel('Vegetation Type (VegType)')
+        plt.title('Hatching Success (HS) by Vegetation Type')
+        plt.tight_layout()
+        st.pyplot(fig)
+
+
+
+    if st.checkbox("Show"):
+            target_summary_with_vegtypes(df_c, "HS")
+
+
     st.header("Correlation Analysis")
 
     if st.checkbox("Correlation Matrix"):
@@ -569,7 +597,9 @@ elif selected == 'Model Prediction':
         lat = st.number_input("Lat", 1.0, 50.0, value=27.14)
         long = st.number_input("Long", -100.0, 0.0, value=-82.48)
         vegpresence = st.number_input("VegPresence ", 0, 1, value=1)
-        vegtype_options = ['-railroad vine', '-sea oats', 'no', '-sea purslane', "-sea grapes"]
+        vegtype_options = ['-railroad vine', '-sea oats', 'no', '-sea purslane', "-sea grapes",
+                           "-beach naupaka","-christmas cactus","-crested saltbush","-dune sunflower",
+                           "-palm","-salt grass","-seaside spurge(sandmat)"]
         vegtype = st.selectbox("VegType", options=vegtype_options)
         rootpres = st.number_input("RootPresence", 0, 1, value=1)
         roottype_options = ['Railroad Vine', 'Sea Oats', 'no']
@@ -1060,7 +1090,7 @@ elif selected == 'Model Evaluation':
                 dtres1 = pd.DataFrame(dt_res)
                 st.write(dtres1)
 
-            st.image("rfe_images/XGB_Regressor_rfecv_visualization.png", width=700)
+            st.image("rfe_images/XGBRegressor_rfecv_visualization.png", width=700)
 
     #model performances grafiği:
     model_names = ['RANDOM FOREST', 'DECISION TREE','SVR',"ENET","XGBOOST"]
