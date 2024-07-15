@@ -3,7 +3,7 @@
 The aim of this project was to observe and predict the effects of dune plant roots on the hatching success of loggerhead sea turtles. The hatching success of loggerhead sea turtles (Caretta caretta) is highly dependent on dune plant roots, since they lay their eggs near dunes. Dune plant roots can cause harm to the eggs and reduce the chances of hatching by breaking them. Therefore, it is crucial to analyze and optimize the effect of dune plants upon the hatching of the eggs. The results were compared using various machine learning models and a website is built through Streamlit for ML deployment. 
 
 ## The Dataset
-[Dataset link](https://datadryad.org/stash/dataset/doi:10.5061/dryad.zw3r228dk)
+[Dataset link](datadryad.org/stash/dataset/doi:10.5061/dryad.zw3r228dk)
 
 ## Our ML Deployment Website
 We coded and deployed our website in Python using Streamlit. Our website gives users an overview of the project, visualizes the EDA process and shows the results. There is also a "Model Prediction" section that we aim that scientists interested in this field can use and get results by entering new data. 
