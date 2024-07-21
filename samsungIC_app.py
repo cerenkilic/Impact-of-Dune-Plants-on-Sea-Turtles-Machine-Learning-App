@@ -597,18 +597,18 @@ elif selected == 'Model Prediction':
         lat = st.number_input("Lat", 1.0, 50.0, value=27.14)
         long = st.number_input("Long", -100.0, 0.0, value=-82.48)
         vegpresence = st.number_input("VegPresence ", 0, 1, value=1)
-        vegtype_options = ['-railroad vine', '-sea oats', 'no', '-sea purslane', "-sea grapes",
+        vegtype_options = ['-sea oats', '-railroad vine', 'no', '-sea purslane', "-sea grapes",
                            "-beach naupaka","-christmas cactus","-crested saltbush","-dune sunflower",
                            "-palm","-salt grass","-seaside spurge(sandmat)"]
         vegtype = st.selectbox("VegType", options=vegtype_options)
         rootpres = st.number_input("RootPresence", 0, 1, value=1)
-        roottype_options = ['Railroad Vine', 'Sea Oats', 'no']
+        roottype_options = ['Sea Oats','Railroad Vine', 'no']
         roottype = st.selectbox("PlantRoot", options=roottype_options)
         distbarr = st.number_input("DistBarrier", -20.0, 20.0, value=1.52)
         disthighw = st.number_input("DistHighWater", 0.0, 1000.0, value=14.05)
         totaldist = st.number_input("TotalDist", 0.0, 50.0, value=15.54)
         LocOnBeach = st.number_input("LocOnBeach ", 0.0, 5.0, value=1.02)
-        division_options = ['M', 'U', 'L']
+        division_options = ['U','M','L']
         Division = st.selectbox("Division", options=division_options)
         SurfaceDepth = st.number_input("SurfaceDepth ", 0.0, 1000.0, value=20.0)
         BottomDepth = st.number_input("BottomDepth", 0.0, 1000.0, value=33.0)
@@ -630,7 +630,7 @@ elif selected == 'Model Prediction':
         H_Invaded = st.number_input("H_Invaded", 0.0, 1000.0, value=0.0)
         UH_Invaded = st.number_input("UH_Invaded", 0.0, 1000.0, value=0.0)
         Live = st.number_input("Live", 0.0, 1000.0, value=3.0)
-        Dead = st.number_input("Dead", 0.0, 1000.0, value=2.0)
+        Dead = st.number_input("Dead", 0.0, 1000.0, value=5.0)
         Depredated = st.number_input("Depredated  ", 0.0, 1000.0, value=0.0)
         RootDamageProp = st.number_input("RootDamageProp", 0.0, 1000.0, value=0.0125)
         ES = st.number_input("ES ", 0.0, 1000.0, value=95.0)
