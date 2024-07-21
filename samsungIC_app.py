@@ -823,7 +823,7 @@ elif selected == 'Model Prediction':
 
         if st.button('Predict'):
             if model_option == "Linear Regression":
-                model = load_model("model_files/LR_model_050724.pkl")
+                model = load_model("model_files/nnLR_model_080724.pkl")
                 prediction = model.predict(last_row)
                 st.write('## Result')
                 st.success(f"Hatching Success Prediction: {prediction.item():.2f}%")
