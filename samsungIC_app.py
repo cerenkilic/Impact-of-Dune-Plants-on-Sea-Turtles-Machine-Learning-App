@@ -630,7 +630,7 @@ elif selected == 'Model Prediction':
         H_Invaded = st.number_input("H_Invaded", 0.0, 1000.0, value=0.0)
         UH_Invaded = st.number_input("UH_Invaded", 0.0, 1000.0, value=0.0)
         Live = st.number_input("Live", 0.0, 1000.0, value=3.0)
-        Dead = st.number_input("Dead", 0.0, 1000.0, value=5.0)
+        Dead = st.number_input("Dead", 0.0, 1000.0, value=7.0)
         Depredated = st.number_input("Depredated  ", 0.0, 1000.0, value=0.0)
         RootDamageProp = st.number_input("RootDamageProp", 0.0, 1000.0, value=0.0125)
         ES = st.number_input("ES ", 0.0, 1000.0, value=95.0)
