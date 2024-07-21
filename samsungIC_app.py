@@ -852,8 +852,10 @@ elif selected == 'Model Prediction':
                 prediction = model.predict(last_row)
                 st.write('## Result:')
                 st.success(f"Hatching Success Prediction: {prediction.item():.2f}%")
-            progress = int(prediction)
-            st.progress(progress)
+            #progress = int(prediction)
+            #st.progress(progress)
+            progress = min(max(int(prediction), 0), 100)
+            st.progress(progress / 100.0)
 
     hide_menu_style = """
         <style>
