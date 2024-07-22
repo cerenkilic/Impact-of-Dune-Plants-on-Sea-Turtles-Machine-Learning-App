@@ -543,7 +543,7 @@ elif selected == 'Model Prediction':
                 <h1 style="color:BLACK;text-align:left;"> Predictive Analytics for Scientists</h1>
                 </div>
                 """
-    st.subheader("Please enter information about the data 🐢🌿")
+    #st.subheader("Please enter information about the data 🐢🌿")
 
     st.markdown(html_temp, unsafe_allow_html=True)
     with st.expander(" ℹ️ Information About the Features", expanded=False):
